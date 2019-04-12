@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ideabox redux with Patrick, Ebenezer, and Steve</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:200, 300,400,800" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="normalize.css">
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<header class="flex">
+		<h1>CHECK <span>YO'</span> SELF</h1>
+		<div class="header__search-bar flex">
+			<img class="header--search__icon" src="images/search.svg">
+			<input class="header--search__input" type="text">	
+		</div>
+	</header>
+	<nav class="flex">
+		<form class="flex">
+			<label class="form__label form__label--task-title" for="task-title">Task Title</label>
+			<input class="form__input form__input--task-title" type="text" name="task-title">
+				<label class="form__label form__label--task-item" for="task-item">Task Item</label>
+			<div class="form__task-input flex">
+				<input class="form__input form__input--task-item" type="text" name="task-item">
+				<button>+</button>
+			</div>
+			<button class="form__button form__button--make-task-list">Make Task List</button>
+			<button class="form__button form__button--clear-all">Clear All</button>
+		</form>
+		<button class="form__button form__button--filter-by-urgency">Filter by Urgency</button>
+	</nav>
+	<main class="flex">
+		<article class="todo-card flex">
+			<section class="todo-card__top flex">
+				<h2>Task Title</h2>
+			</section>
+			<section class="todo-card__middle flex">
+				<input class="todo-card__checkbox" type="checkbox" name="task-item-checkbox">
+				<p>Task Item</p>
+			</section>
+			<section class="todo-card__bottom flex">
+				<div class="todo-card__bottom__icon todo-card__bottom__icon--urgent flex">
+					<img class="todo-card__bottom--urgent" src="images/urgent.svg">
+					<p>Urgent</p>
+				</div>
+				<div class="todo-card__bottom__icon todo-card__bottom__icon--delete flex">
+					<img class="todo-card__bottom--close" src="images/delete.svg">
+					<p>Delete</p>
+				</div>
+			</section>
+		</article>
+		<article class="todo-card todo-card--active flex">
+			<section class="todo-card__top todo-card--active__top flex">
+				<h2>Task Title</h2>
+			</section>
+			<section class="todo-card__middle todo-card--active__middle flex">
+				<input class="todo-card__checkbox" type="checkbox" name="task-item-checkbox">
+				<p>Task Item</p>
+			</section>
+			<section class="todo-card__bottom todo-card__bottom todo-card--active__bottom flex">
+				<div class="todo-card__bottom__icon todo-card__bottom__icon--urgent flex">
+					<img class="todo-card__bottom--urgent todo-card__bottom--urgent--active" src="images/urgent-active.svg">
+					<p>Urgent</p>
+				</div>
+				<div class="todo-card__bottom__icon todo-card__bottom__icon--delete flex">
+					<img class="todo-card__bottom--close" src="images/delete.svg">
+					<p>Delete</p>
+				</div>
+			</section>
+		</article>
+	</main>
+	<script type="text/javascript" src="todo-list.js"></script>
+  <script type="text/javascript" src="main.js"></script>
+</body>
