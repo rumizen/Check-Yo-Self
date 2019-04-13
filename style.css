@@ -124,6 +124,20 @@ form {
 	margin-top: 20px;
 }
 
+.task-item {
+	align-items: center;
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	margin: 7px 30px;
+	width: 30%;
+}
+
+.task-item__icon--delete {
+	height: 30px;
+	margin-right: 10px;
+}
+
 
 /* ---------- Main ---------- */
 
@@ -168,7 +182,7 @@ h2 {
 }
 
 .todo-card__bottom--urgent, 
-.todo-card__bottom--close {
+.todo-card__bottom--delete {
 	height: 30px;
 }
 
