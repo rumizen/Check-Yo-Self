@@ -23,9 +23,8 @@ var allTodos = JSON.parse(localStorage.getItem('storedTodos')) || [];
 
 
 window.addEventListener('load', startCheckYoSelf);
-taskItem.addEventListener('input', function() {
-	inputChecker(taskItem, taskItemBtn);
-});
+taskItem.addEventListener('input', inputChecker);
+taskTitle.addEventListener('input', inputChecker);
 // searchBtn.addEventListener('click');
 taskItemBtn.addEventListener('click', createTask);
 makeTaskListBtn.addEventListener('click', createNewTodo);
@@ -41,13 +40,16 @@ function startCheckYoSelf() {
 	disableButton(clearAllBtn);
 	disableButton(taskItemBtn);
 	reinstantiateTodos(allTodos);
+	loadTodos();
 }
 
-function inputChecker(input, btn) {
-	if (input.value != '') {
-		enableButton(btn);
+function inputChecker() {
+	if (taskItem.value === '' || taskTitle.value === '') {
+		disableButton(taskItemBtn);
+		disableButton(makeTaskListBtn);
 	} else {
-		disableButton(btn);
+		enableButton(taskItemBtn);
+		enableButton(makeTaskListBtn);
 	}
 }
 
@@ -67,9 +69,15 @@ function resetInput(input, btn) {
 function reinstantiateTodos(todos) {
 	allTodos = [];
 	todos.forEach(function(todo) {
-		let newTodo = new TodoList(todo.id, todo.title, todo.urgent, todo.tasks);
+		let newTodo = new ToDoList(todo.id, todo.title, todo.urgent, todo.tasks);
 		allTodos.push(newTodo);
 	})
+}
+
+function loadTodos() {
+	allTodos.forEach(function(el) {
+		appendTodo(el);
+	});
 }
 
 function createTask(e) {
@@ -79,11 +87,9 @@ function createTask(e) {
 		<img class="task-item__icon--delete" src="images/delete.svg">
 		<p class="task-item__text">${taskItem.value}</p>
 	</div>`;
-	taskList.insertAdjacentHTML('afterbegin', task);
+	taskList.insertAdjacentHTML('beforeend', task);
 	resetInput(taskItem, taskItemBtn);
 }
-
-
 
 function appendTodo(newTodo) {
 	const cardText = `
@@ -92,8 +98,6 @@ function appendTodo(newTodo) {
 				<h2 class="todo-card__top--title">${newTodo.title}</h2>
 			</section>
 			<section class="todo-card__middle flex">
-				<input class="todo-card__checkbox" type="checkbox" name="task-item-checkbox">
-				<p class="todo-card__middle--task">Task Item</p>
 			</section>
 			<section class="todo-card__bottom flex">
 				<div class="todo-card__bottom__icon todo-card__bottom__icon--urgent flex">
@@ -107,10 +111,23 @@ function appendTodo(newTodo) {
 			</section>
 		</article>`;
 	main.insertAdjacentHTML('afterbegin', cardText);
+	newTodo.tasks.forEach(function(el) {
+		document.querySelector('.todo-card__middle').insertAdjacentHTML('beforeend', `
+			<div class="todo-card__middle--task flex">
+				<img class="todo-card__middle--task--checkbox" src="images/checkbox.svg"
+				<p class="todo-card__middle--task--text">${el.content}</p>
+			</div>`);
+	});
 }
 
-function createNewTodo() {
-	const newTodo = new TodoList(Date.now(), taskTitle.value, false, taskList.querySelectorAll('.task-item'));
+function createNewTodo(e) {
+	e.preventDefault();
+	const taskArray = Array.prototype.slice.call(document.querySelectorAll('.task-item__text'));
+	const taskObjArray = taskArray.map(function(el) {
+		return el = {content: el.innerText, checked: false};
+	}) 
+	const newTodo = new ToDoList(Date.now(), taskTitle.value, false, taskObjArray);
+	appendTodo(newTodo);
 	allTodos.push(newTodo);
 }
 
@@ -149,10 +166,6 @@ function urgentButton(click) {
 function taskCompleteButton(click) {
 
 }
-
-
-
-
 
 function updateTaskDOM(target) {
 	// find ID of target

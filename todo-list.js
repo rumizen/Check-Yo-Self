@@ -1,7 +1,7 @@
 class ToDoList {
 
 	constructor(id, title, urgent, tasks) {
-		this.id = id || date.now()
+		this.id = id;
 		this.title = title;
 		this.urgent = false;
 		this.tasks = tasks || [];

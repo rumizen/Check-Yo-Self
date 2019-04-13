@@ -7,7 +7,7 @@
 body {
 	display: grid;
 	grid-template-columns: 1fr 4fr;
-	grid-template-rows: 1fr 10fr;
+	grid-template-rows: 1fr 13fr;
 	grid-template-areas: 
 		"header header"
 		"nav main";
@@ -41,6 +41,7 @@ h1 span {
 
 .header__search-bar {
 	justify-content: flex-end;
+	align-items: center;
 	margin: 10px;
 	width: 30%;
 }
@@ -48,6 +49,7 @@ h1 span {
 .header--search__input {
 	border: none;
 	border-radius: 0px 3px 3px 0px;
+	height: 48px;
 	width: 90%;
 }
 
@@ -168,7 +170,19 @@ h2 {
 }
 
 .todo-card__middle {
+	flex-direction: column;
 	width: 100%;
+}
+
+.todo-card__middle--task {
+	align-items: center;
+	justify-content: flex-start;
+	margin: 20px 30px;
+}
+
+.todo-card__middle--task--checkbox {
+	height: 25px;
+	margin-right: 10px;
 }
 
 .todo-card__checkbox {
