@@ -7,13 +7,13 @@ class ToDoList {
 		this.tasks = tasks || [];
 	}
 
-	saveToStorage() {
+	saveToStorage(allTodos) {
 		localStorage.setItem('storedTodos', JSON.stringify(allTodos));
 	}
 
 	deleteFromStorage(index) {
 		allTodos.splice(index, 1);
-		this.saveToStorage;
+		this.saveToStorage(allTodos);
 	}
 
 	updateToDo(click) {
@@ -23,7 +23,7 @@ class ToDoList {
 		if (click.matches('.todo-card__bottom__icon--urgent')) {
 			this.urgent = !this.urgent;
 		}
-		this.saveToStorage;
+		this.saveToStorage(allTodos);
 	}
 
 	updateTask(click, taskObject) {
@@ -33,6 +33,6 @@ class ToDoList {
 		if (click.matches('.todo-card__checkbox')) {
 			taskObject.complete = !taskObject.complete;
 		}
-		this.saveToStorage;
+		this.saveToStorage(allTodos);
 	}
 }

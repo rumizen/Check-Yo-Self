@@ -28,6 +28,7 @@ taskTitle.addEventListener('input', inputChecker);
 // searchBtn.addEventListener('click');
 taskItemBtn.addEventListener('click', createTask);
 makeTaskListBtn.addEventListener('click', createNewTodo);
+main.addEventListener('click', todoButtons);
 // clearAllBtn.addEventListener('click');
 // filterByUrgencyBtn.addEventListener('click',);
 
@@ -83,7 +84,7 @@ function loadTodos() {
 function createTask(e) {
 	e.preventDefault()
 	const task = `
-	<div class="task-item" data-id=${Date.now()}>
+	<div class="task-item">
 		<img class="task-item__icon--delete" src="images/delete.svg">
 		<p class="task-item__text">${taskItem.value}</p>
 	</div>`;
@@ -129,34 +130,34 @@ function createNewTodo(e) {
 	const newTodo = new ToDoList(Date.now(), taskTitle.value, false, taskObjArray);
 	appendTodo(newTodo);
 	allTodos.push(newTodo);
+	newTodo.saveToStorage();
 }
 
 function todoButtons(e) {
 	const click = e.target;
-	const card = e.target.closest(classname);
-	const cardIndex = getIndex();
-	const taskObject = todoArray[cardIndex];
-
+	const card = click.parentNode.parentNode.parentNode.dataset.id;
+	const cardIndex = getIndex(parseInt(card));
+	const taskObject = allTodos[cardIndex];
+	
 	if (click.matches('.todo-card__bottom--delete')) {
-		deleteButton(click);
+		deleteButton(click, taskObject, cardIndex);
 	}
 	if (click.matches('.todo-card__bottom--urgent')) {
 		urgentButton(click);
 	}
-	if (click.matches('.todo-card__checkbox')) {
-		taskCompleteButton(click);
-	}
 }
 
 function getIndex(card) {
-	cardIndex = todoArray.findIndex(function(el) {
-		return el === card.dataset.id;
+	cardIndex = allTodos.findIndex(function(el) {
+		return el.id == card;
 	})
+	return cardIndex;
 }
 
 
-function deleteButton(click) {
-
+function deleteButton(click, taskObject, cardIndex) {
+	click.parentNode.parentNode.parentNode.parentNode.removeChild(click.parentNode.parentNode.parentNode);
+	taskObject.deleteFromStorage(cardIndex);
 }
 
 function urgentButton(click) {
