@@ -20,10 +20,12 @@
 		<form class="flex">
 			<label class="form__label form__label--task-title" for="task-title">Task Title</label>
 			<input class="form__input form__input--task-title" type="text" name="task-title">
-				<label class="form__label form__label--task-item" for="task-item">Task Item</label>
+			<section class="form__task-item-list">
+			</section>
+			<label class="form__label form__label--task-item" for="task-item">Task Item</label>
 			<div class="form__task-input flex">
 				<input class="form__input form__input--task-item" type="text" name="task-item">
-				<button>+</button>
+				<button class="form__input--task-item--button"><img src="images/plus.svg"></button>
 			</div>
 			<button class="form__button form__button--make-task-list">Make Task List</button>
 			<button class="form__button form__button--clear-all">Clear All</button>
@@ -31,25 +33,6 @@
 		<button class="form__button form__button--filter-by-urgency">Filter by Urgency</button>
 	</nav>
 	<main class="flex">
-		<article class="todo-card flex">
-			<section class="todo-card__top flex">
-				<h2 class="todo-card__top--title">Task Title</h2>
-			</section>
-			<section class="todo-card__middle flex">
-				<input class="todo-card__checkbox" type="checkbox" name="task-item-checkbox">
-				<p class="todo-card__middle--task">Task Item</p>
-			</section>
-			<section class="todo-card__bottom flex">
-				<div class="todo-card__bottom__icon todo-card__bottom__icon--urgent flex">
-					<img class="todo-card__bottom--urgent" src="images/urgent.svg">
-					<p>Urgent</p>
-				</div>
-				<div class="todo-card__bottom__icon todo-card__bottom__icon--delete flex">
-					<img class="todo-card__bottom--close" src="images/delete.svg">
-					<p>Delete</p>
-				</div>
-			</section>
-		</article>
 		<article class="todo-card todo-card--active flex">
 			<section class="todo-card__top todo-card--active__top flex">
 				<h2 class="todo-card__top--title">Task Title</h2>
@@ -64,7 +47,7 @@
 					<p>Urgent</p>
 				</div>
 				<div class="todo-card__bottom__icon todo-card__bottom__icon--delete flex">
-					<img class="todo-card__bottom--close" src="images/delete.svg">
+					<img class="todo-card__bottom--delete" src="images/delete.svg">
 					<p>Delete</p>
 				</div>
 			</section>
