@@ -29,7 +29,8 @@ taskTitle.addEventListener('input', inputChecker);
 taskItemBtn.addEventListener('click', createTask);
 makeTaskListBtn.addEventListener('click', createNewTodo);
 main.addEventListener('click', todoButtons);
-// clearAllBtn.addEventListener('click');
+clearAllBtn.addEventListener('click', clearForms);
+taskList.addEventListener('click', deleteStagedTask)
 // filterByUrgencyBtn.addEventListener('click',);
 
 
@@ -51,6 +52,7 @@ function inputChecker() {
 	} else {
 		enableButton(taskItemBtn);
 		enableButton(makeTaskListBtn);
+		enableButton(clearAllBtn);
 	}
 }
 
@@ -65,6 +67,13 @@ function disableButton(btn) {
 function resetInput(input, btn) {
 	input.value = '';
 	disableButton(btn);
+}
+
+function clearForms() {
+	// e.preventDefault();
+	taskTitle.value = '';
+	taskList.innerHTML = '';
+	disableButton(clearAllBtn);
 }
 
 function reinstantiateTodos(todos) {
@@ -82,7 +91,7 @@ function loadTodos() {
 }
 
 function createTask(e) {
-	e.preventDefault()
+	e.preventDefault();
 	const task = `
 	<div class="task-item">
 		<img class="task-item__icon--delete" src="images/delete.svg">
@@ -124,13 +133,12 @@ function appendTodo(newTodo) {
 function createNewTodo(e) {
 	e.preventDefault();
 	const taskArray = Array.prototype.slice.call(document.querySelectorAll('.task-item__text'));
-	const taskObjArray = taskArray.map(function(el) {
-		return el = {content: el.innerText, checked: false};
-	}) 
+	const taskObjArray = taskArray.map(el => el = {content: el.innerText, checked: false});
 	const newTodo = new ToDoList(Date.now(), taskTitle.value, false, taskObjArray);
 	appendTodo(newTodo);
 	allTodos.push(newTodo);
-	newTodo.saveToStorage();
+	newTodo.saveToStorage(allTodos);
+	clearForms();
 }
 
 function todoButtons(e) {
@@ -158,6 +166,12 @@ function getIndex(card) {
 function deleteButton(click, taskObject, cardIndex) {
 	click.parentNode.parentNode.parentNode.parentNode.removeChild(click.parentNode.parentNode.parentNode);
 	taskObject.deleteFromStorage(cardIndex);
+}
+
+function deleteStagedTask(e) {
+	if (e.target.matches('.task-item__icon--delete')) {
+		e.target.parentNode.parentNode.removeChild(e.target.parentNode);
+	}
 }
 
 function urgentButton(click) {
