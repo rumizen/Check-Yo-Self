@@ -221,16 +221,16 @@ h2 {
 
 .todo-card--active {
 	background-color: #FFE79D;
-	border: #FEC40E 2px solid;
+	border-color: #FEC40E;
 }
 
-.todo-card--active__top {
+/*.todo-card--active__top {
 	border-bottom: solid 2px #FEC40E;
-}
+}*/
 
-.todo-card--active__bottom {
+/*.todo-card--active__bottom {
 	border-top: solid 2px #FEC40E;
-}
+}*/
 
 .todo-card img {
 	padding: 5px 10px;
