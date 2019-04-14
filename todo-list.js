@@ -26,12 +26,12 @@ class ToDoList {
 		this.saveToStorage(allTodos);
 	}
 
-	updateTask(click, taskObject) {
-		if (click.matches('.todo-card__middle--task')) {
-			taskObject.content = click.innerText;
+	updateTask(click, taskIndex) {
+		if (click.matches('.todo-card__middle--task--text')) {
+			this.tasks[taskIndex].content = click.innerText;
 		}
-		if (click.matches('.todo-card__checkbox')) {
-			taskObject.complete = !taskObject.complete;
+		if (click.matches('.todo-card__middle--task--checkbox')) {
+			this.tasks[taskIndex].checked = !this.tasks[taskIndex].checked;
 		}
 		this.saveToStorage(allTodos);
 	}

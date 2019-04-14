@@ -70,7 +70,6 @@ function resetInput(input, btn) {
 }
 
 function clearForms() {
-	// e.preventDefault();
 	taskTitle.value = '';
 	taskList.innerHTML = '';
 	disableButton(clearAllBtn);
@@ -95,7 +94,7 @@ function createTask(e) {
 	const task = `
 	<div class="task-item">
 		<img class="task-item__icon--delete" src="images/delete.svg">
-		<p class="task-item__text">${taskItem.value}</p>
+		<p class="task-item__text" data-id=${Date.now()}>${taskItem.value}</p>
 	</div>`;
 	taskList.insertAdjacentHTML('beforeend', task);
 	resetInput(taskItem, taskItemBtn);
@@ -122,18 +121,26 @@ function appendTodo(newTodo) {
 		</article>`;
 	main.insertAdjacentHTML('afterbegin', cardText);
 	newTodo.tasks.forEach(function(el) {
+		if (el.checked === false) {
 		document.querySelector('.todo-card__middle').insertAdjacentHTML('beforeend', `
-			<div class="todo-card__middle--task flex">
+			<div class="todo-card__middle--task flex" data-id=${el.id}>
 				<img class="todo-card__middle--task--checkbox" src="images/checkbox.svg"
 				<p class="todo-card__middle--task--text">${el.content}</p>
 			</div>`);
+		} else {
+			document.querySelector('.todo-card__middle').insertAdjacentHTML('beforeend', `
+			<div class="todo-card__middle--task flex task-checked" data-id=${el.id}>
+				<img class="todo-card__middle--task--checkbox" src="images/checkbox-active.svg"
+				<p class="todo-card__middle--task--text">${el.content}</p>
+			</div>`);
+		}
 	});
 }
 
 function createNewTodo(e) {
 	e.preventDefault();
 	const taskArray = Array.prototype.slice.call(document.querySelectorAll('.task-item__text'));
-	const taskObjArray = taskArray.map(el => el = {content: el.innerText, checked: false});
+	const taskObjArray = taskArray.map(el => el = {id: el.dataset.id, content: el.innerText, checked: false});
 	const newTodo = new ToDoList(Date.now(), taskTitle.value, false, taskObjArray);
 	appendTodo(newTodo);
 	allTodos.push(newTodo);
@@ -143,29 +150,31 @@ function createNewTodo(e) {
 
 function todoButtons(e) {
 	const click = e.target;
-	const card = click.parentNode.parentNode.parentNode.dataset.id;
-	const cardIndex = getIndex(parseInt(card));
-	const taskObject = allTodos[cardIndex];
-	
+	const cardId = click.parentNode.parentNode.parentNode.dataset.id;
+	const cardIndex = getIndex(cardId);
 	if (click.matches('.todo-card__bottom--delete')) {
-		deleteButton(click, taskObject, cardIndex);
+		deleteButton(click, cardIndex);
 	}
 	if (click.matches('.todo-card__bottom--urgent')) {
 		urgentButton(click);
 	}
+	if (click.matches('.todo-card__middle--task--checkbox')) {
+		taskCheckbox(click, cardIndex);
+	}
 }
 
-function getIndex(card) {
+function getIndex(cardId) {
 	cardIndex = allTodos.findIndex(function(el) {
-		return el.id == card;
+		return el.id == cardId;
 	})
 	return cardIndex;
 }
 
 
-function deleteButton(click, taskObject, cardIndex) {
+function deleteButton(click, cardIndex) {
+	const todoObject = allTodos[cardIndex];
 	click.parentNode.parentNode.parentNode.parentNode.removeChild(click.parentNode.parentNode.parentNode);
-	taskObject.deleteFromStorage(cardIndex);
+	todoObject.deleteFromStorage(cardIndex);
 }
 
 function deleteStagedTask(e) {
@@ -178,14 +187,20 @@ function urgentButton(click) {
 
 }
 
-function taskCompleteButton(click) {
-
-}
-
-function updateTaskDOM(target) {
-	// find ID of target
-	// use array.find() to return object
-	// iterate through object.tasks and match task innerText
-	// create var for that object (taskObject)
-	// run taskObject.updateTask(target, taskObject)
+function taskCheckbox(click, cardIndex) {
+	const todoObject = allTodos[cardIndex];
+	const taskId = click.parentNode.dataset.id;
+	const taskIndex = todoObject.tasks.findIndex(el => el.id === taskId);
+	const taskObject = todoObject.tasks[taskIndex];
+	if (taskObject.checked === false) {
+		click.setAttribute('src', 'images/checkbox-active.svg');
+		click.parentNode.classList.add('task-checked');
+		click.classList.add('checkbox-checked');
+	}
+	if (taskObject.checked === true) {
+		click.setAttribute('src', 'images/checkbox.svg');
+		click.parentNode.classList.remove('task-checked');
+		click.classList.remove('checkbox-checked');
+	}
+	todoObject.updateTask(click, taskIndex);
 }
