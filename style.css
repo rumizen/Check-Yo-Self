@@ -189,6 +189,15 @@ h2 {
 	display: none;
 }
 
+.task-checked {
+	font-style: italic;
+	color: #3C6577;
+}
+
+.checkbox-checked {
+	fill: #3C6577; 
+}
+
 .todo-card__bottom {
 	border-top: solid 2px #C7D3D8;
 	justify-content: space-between;
