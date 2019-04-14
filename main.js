@@ -11,6 +11,7 @@ const clearAllBtn = document.querySelector('.form__button--clear-all');
 const filterByUrgencyBtn = document.querySelector('.form__button--filter-by-urgency');
 const main = document.querySelector('main');
 const taskList = document.querySelector('.form__task-item-list');
+const emptyMessage = document.querySelector('h3');
 
 
 /* -------------- Global Variables ------------- */
@@ -43,6 +44,11 @@ function startCheckYoSelf() {
 	disableButton(taskItemBtn);
 	reinstantiateTodos(allTodos);
 	loadTodos();
+	emptyTodoMessage();
+}
+
+function emptyTodoMessage() {
+	allTodos.length < 1 ? emptyMessage.classList.remove('hide') : emptyMessage.classList.add('hide');
 }
 
 function inputChecker() {
@@ -167,6 +173,7 @@ function createNewTodo(e) {
 	const newTodo = new ToDoList(Date.now(), taskTitle.value, false, taskObjArray);
 	appendTodo(newTodo);
 	allTodos.push(newTodo);
+	emptyTodoMessage();
 	newTodo.saveToStorage(allTodos);
 	clearForms();
 }
@@ -201,6 +208,7 @@ function deleteButton(click, cardIndex) {
 		click.parentNode.parentNode.parentNode.parentNode.removeChild(click.parentNode.parentNode.parentNode);
 		todoObject.deleteFromStorage(cardIndex);
 	}
+	emptyTodoMessage();
 }
 
 function deleteStagedTask(e) {
