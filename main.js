@@ -101,6 +101,7 @@ function createTask(e) {
 }
 
 function appendTodo(newTodo) {
+	if (newTodo.urgent === false) {
 	const cardText = `
 		<article class="todo-card flex" data-id=${newTodo.id}>
 			<section class="todo-card__top flex">
@@ -119,7 +120,29 @@ function appendTodo(newTodo) {
 				</div>
 			</section>
 		</article>`;
-	main.insertAdjacentHTML('afterbegin', cardText);
+		main.insertAdjacentHTML('afterbegin', cardText);
+	}
+	if (newTodo.urgent === true) {
+	const cardTextActive = `
+		<article class="todo-card--active todo-card flex" data-id=${newTodo.id}>
+			<section class="todo-card__top flex">
+				<h2 class="todo-card__top--title">${newTodo.title}</h2>
+			</section>
+			<section class="todo-card__middle flex">
+			</section>
+			<section class="todo-card__bottom flex">
+				<div class="todo-card__bottom__icon todo-card__bottom__icon--urgent flex">
+					<img class="todo-card__bottom--urgent" src="images/urgent-active.svg">
+					<p>Urgent</p>
+				</div>
+				<div class="todo-card__bottom__icon todo-card__bottom__icon--delete flex">
+					<img class="todo-card__bottom--delete" src="images/delete.svg">
+					<p>Delete</p>
+				</div>
+			</section>
+		</article>`;
+		main.insertAdjacentHTML('afterbegin', cardTextActive);
+	}
 	newTodo.tasks.forEach(function(el) {
 		if (el.checked === false) {
 		document.querySelector('.todo-card__middle').insertAdjacentHTML('beforeend', `
@@ -156,7 +179,7 @@ function todoButtons(e) {
 		deleteButton(click, cardIndex);
 	}
 	if (click.matches('.todo-card__bottom--urgent')) {
-		urgentButton(click);
+		urgentButton(click, cardIndex);
 	}
 	if (click.matches('.todo-card__middle--task--checkbox')) {
 		taskCheckbox(click, cardIndex);
@@ -173,8 +196,11 @@ function getIndex(cardId) {
 
 function deleteButton(click, cardIndex) {
 	const todoObject = allTodos[cardIndex];
-	click.parentNode.parentNode.parentNode.parentNode.removeChild(click.parentNode.parentNode.parentNode);
-	todoObject.deleteFromStorage(cardIndex);
+	const checkedTasks = todoObject.tasks.filter(el => el.checked === true);
+	if (todoObject.tasks.length === checkedTasks.length) {
+		click.parentNode.parentNode.parentNode.parentNode.removeChild(click.parentNode.parentNode.parentNode);
+		todoObject.deleteFromStorage(cardIndex);
+	}
 }
 
 function deleteStagedTask(e) {
@@ -183,8 +209,17 @@ function deleteStagedTask(e) {
 	}
 }
 
-function urgentButton(click) {
-
+function urgentButton(click, cardIndex) {
+	const todoObject = allTodos[cardIndex];
+	if (todoObject.urgent === false) {
+		click.setAttribute('src', 'images/urgent-active.svg');
+		click.parentNode.parentNode.parentNode.classList.add('todo-card--active');
+	}
+	if (todoObject.urgent === true) {
+		click.setAttribute('src', 'images/urgent.svg');
+		click.parentNode.parentNode.parentNode.classList.remove('todo-card--active');
+	}
+	todoObject.updateToDo(click);
 }
 
 function taskCheckbox(click, cardIndex) {

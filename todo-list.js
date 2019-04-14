@@ -3,7 +3,7 @@ class ToDoList {
 	constructor(id, title, urgent, tasks) {
 		this.id = id;
 		this.title = title;
-		this.urgent = false;
+		this.urgent = urgent || false;
 		this.tasks = tasks || [];
 	}
 
@@ -20,7 +20,7 @@ class ToDoList {
 		if (click.matches('.todo-card__top--title')) {
 			this.title = click.innerText;
 		}
-		if (click.matches('.todo-card__bottom__icon--urgent')) {
+		if (click.matches('.todo-card__bottom--urgent')) {
 			this.urgent = !this.urgent;
 		}
 		this.saveToStorage(allTodos);
