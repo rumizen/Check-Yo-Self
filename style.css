@@ -1,11 +1,8 @@
-* {
-	font-family: 'Open Sans', sans-serif;
-}
-
 /* ---------- Body ---------- */
 
 body {
 	display: grid;
+	font-family: 'Open Sans', sans-serif;
 	grid-template-columns: 1fr 4fr;
 	grid-template-rows: 1fr 13fr;
 	grid-template-areas: 
@@ -150,6 +147,17 @@ main {
 	grid-area: main;
 }
 
+h3 {
+	color: #1E203D;
+	font-size: 1.2em;
+	font-weight: 200;
+	padding: 20px;
+}
+
+.hide {
+	display: none;
+}
+
 /* ---------- Card ---------- */
 
 .todo-card {
@@ -223,14 +231,6 @@ h2 {
 	background-color: #FFE79D;
 	border-color: #FEC40E;
 }
-
-/*.todo-card--active__top {
-	border-bottom: solid 2px #FEC40E;
-}*/
-
-/*.todo-card--active__bottom {
-	border-top: solid 2px #FEC40E;
-}*/
 
 .todo-card img {
 	padding: 5px 10px;
