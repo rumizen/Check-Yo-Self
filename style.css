@@ -136,6 +136,10 @@ form {
 	margin-top: 20px;
 }
 
+.filter-urgency-btn-active {
+	background-color: #EF4A23;
+}
+
 .task-item {
 	align-items: center;
 	display: flex;
