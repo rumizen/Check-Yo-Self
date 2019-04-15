@@ -26,12 +26,12 @@ var allTodos = JSON.parse(localStorage.getItem('storedTodos')) || [];
 window.addEventListener('load', startCheckYoSelf);
 taskItem.addEventListener('input', inputChecker);
 taskTitle.addEventListener('input', inputChecker);
-// searchBtn.addEventListener('click');
 taskItemBtn.addEventListener('click', createTask);
 makeTaskListBtn.addEventListener('click', createNewTodo);
 main.addEventListener('click', todoButtons);
 clearAllBtn.addEventListener('click', clearForms);
 taskList.addEventListener('click', deleteStagedTask)
+// searchBtn.addEventListener('click');
 // filterByUrgencyBtn.addEventListener('click',);
 
 
@@ -51,16 +51,6 @@ function emptyTodoMessage() {
 	allTodos.length < 1 ? emptyMessage.classList.remove('hide') : emptyMessage.classList.add('hide');
 }
 
-function inputChecker() {
-	if (taskItem.value === '' || taskTitle.value === '') {
-		disableButton(taskItemBtn);
-		disableButton(makeTaskListBtn);
-	} else {
-		enableButton(taskItemBtn);
-		enableButton(makeTaskListBtn);
-		enableButton(clearAllBtn);
-	}
-}
 
 function enableButton(btn) {
 	btn.removeAttribute('disabled');
@@ -79,6 +69,7 @@ function clearForms() {
 	taskTitle.value = '';
 	taskList.innerHTML = '';
 	disableButton(clearAllBtn);
+	disableButton(makeTaskListBtn);
 }
 
 function reinstantiateTodos(todos) {
@@ -95,6 +86,51 @@ function loadTodos() {
 	});
 }
 
+function inputChecker() {
+	if (taskItem.value === '' || taskTitle.value === '') {
+		disableButton(taskItemBtn);
+		disableButton(makeTaskListBtn);
+	} else {
+		enableButton(taskItemBtn);
+		enableButton(makeTaskListBtn);
+		enableButton(clearAllBtn);
+	}
+}
+
+
+
+
+/* ---------- Appending Cards ---------- */
+
+
+function appendTodo(newTodo) {
+	if (newTodo.urgent === false) {
+		pasteCardNormal(newTodo);
+	}
+	if (newTodo.urgent === true) {
+		pasteCardUrgent(newTodo);
+	}
+	newTodo.tasks.forEach(function(el) {
+		if (el.checked === false) {
+			pasteTasksNormal(el);
+		} else {
+			pasteTasksChecked(el);
+		}			
+	});
+}
+
+function createNewTodo(e) {
+	e.preventDefault();
+	const taskArray = Array.prototype.slice.call(document.querySelectorAll('.task-item__text'));
+	const taskObjArray = taskArray.map(el => el = {id: el.dataset.id, content: el.innerText, checked: false});
+	const newTodo = new ToDoList(Date.now(), taskTitle.value, false, taskObjArray);
+	appendTodo(newTodo);
+	allTodos.push(newTodo);
+	emptyTodoMessage();
+	newTodo.saveToStorage(allTodos);
+	clearForms();
+}
+
 function createTask(e) {
 	e.preventDefault();
 	const task = `
@@ -106,10 +142,9 @@ function createTask(e) {
 	resetInput(taskItem, taskItemBtn);
 }
 
-function appendTodo(newTodo) {
-	if (newTodo.urgent === false) {
+function pasteCardNormal(newTodo) {
 	const cardText = `
-		<article class="todo-card flex" data-id=${newTodo.id}>
+		<article class="todo-card" data-id=${newTodo.id}>
 			<section class="todo-card__top flex">
 				<h2 class="todo-card__top--title">${newTodo.title}</h2>
 			</section>
@@ -127,10 +162,11 @@ function appendTodo(newTodo) {
 			</section>
 		</article>`;
 		main.insertAdjacentHTML('afterbegin', cardText);
-	}
-	if (newTodo.urgent === true) {
+}
+
+function pasteCardUrgent(newTodo) {
 	const cardTextActive = `
-		<article class="todo-card--active todo-card flex" data-id=${newTodo.id}>
+		<article class="todo-card--active todo-card" data-id=${newTodo.id}>
 			<section class="todo-card__top flex">
 				<h2 class="todo-card__top--title">${newTodo.title}</h2>
 			</section>
@@ -148,34 +184,33 @@ function appendTodo(newTodo) {
 			</section>
 		</article>`;
 		main.insertAdjacentHTML('afterbegin', cardTextActive);
-	}
-	newTodo.tasks.forEach(function(el) {
-		if (el.checked === false) {
-		document.querySelector('.todo-card__middle').insertAdjacentHTML('beforeend', `
-			<div class="todo-card__middle--task flex" data-id=${el.id}>
-				<img class="todo-card__middle--task--checkbox" src="images/checkbox.svg"
-				<p class="todo-card__middle--task--text">${el.content}</p>
-			</div>`);
-		} else {
-			document.querySelector('.todo-card__middle').insertAdjacentHTML('beforeend', `
-			<div class="todo-card__middle--task flex task-checked" data-id=${el.id}>
-				<img class="todo-card__middle--task--checkbox" src="images/checkbox-active.svg"
-				<p class="todo-card__middle--task--text">${el.content}</p>
-			</div>`);
-		}
-	});
 }
 
-function createNewTodo(e) {
-	e.preventDefault();
-	const taskArray = Array.prototype.slice.call(document.querySelectorAll('.task-item__text'));
-	const taskObjArray = taskArray.map(el => el = {id: el.dataset.id, content: el.innerText, checked: false});
-	const newTodo = new ToDoList(Date.now(), taskTitle.value, false, taskObjArray);
-	appendTodo(newTodo);
-	allTodos.push(newTodo);
-	emptyTodoMessage();
-	newTodo.saveToStorage(allTodos);
-	clearForms();
+function pasteTasksNormal(el) {
+	document.querySelector('.todo-card__middle').insertAdjacentHTML('beforeend', `
+			<div class="todo-card__middle--task flex" data-id=${el.id}>
+				<img class="todo-card__middle--task--checkbox" src="images/checkbox.svg">
+				<p class="todo-card__middle--task--text">${el.content}</p>
+			</div>`);
+}
+
+function pasteTasksChecked(el) {
+	document.querySelector('.todo-card__middle').insertAdjacentHTML('beforeend', `
+			<div class="todo-card__middle--task flex task-checked" data-id=${el.id}>
+				<img class="todo-card__middle--task--checkbox" src="images/checkbox-active.svg">
+				<p class="todo-card__middle--task--text">${el.content}</p>
+			</div>`);
+}
+
+
+/* ---------- Updating DOM ---------- */
+
+
+function getIndex(cardId) {
+	cardIndex = allTodos.findIndex(function(el) {
+		return el.id == cardId;
+	})
+	return cardIndex;
 }
 
 function todoButtons(e) {
@@ -192,14 +227,6 @@ function todoButtons(e) {
 		taskCheckbox(click, cardIndex);
 	}
 }
-
-function getIndex(cardId) {
-	cardIndex = allTodos.findIndex(function(el) {
-		return el.id == cardId;
-	})
-	return cardIndex;
-}
-
 
 function deleteButton(click, cardIndex) {
 	const todoObject = allTodos[cardIndex];
@@ -230,11 +257,7 @@ function urgentButton(click, cardIndex) {
 	todoObject.updateToDo(click);
 }
 
-function taskCheckbox(click, cardIndex) {
-	const todoObject = allTodos[cardIndex];
-	const taskId = click.parentNode.dataset.id;
-	const taskIndex = todoObject.tasks.findIndex(el => el.id === taskId);
-	const taskObject = todoObject.tasks[taskIndex];
+function updateCheckbox(click, taskObject) {
 	if (taskObject.checked === false) {
 		click.setAttribute('src', 'images/checkbox-active.svg');
 		click.parentNode.classList.add('task-checked');
@@ -245,5 +268,13 @@ function taskCheckbox(click, cardIndex) {
 		click.parentNode.classList.remove('task-checked');
 		click.classList.remove('checkbox-checked');
 	}
+}
+
+function taskCheckbox(click, cardIndex) {
+	const todoObject = allTodos[cardIndex];
+	const taskId = click.parentNode.dataset.id;
+	const taskIndex = todoObject.tasks.findIndex(el => el.id === taskId);
+	const taskObject = todoObject.tasks[taskIndex];
+	updateCheckbox(click, taskObject);
 	todoObject.updateTask(click, taskIndex);
 }

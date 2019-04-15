@@ -1,5 +1,10 @@
 /* ---------- Body ---------- */
 
+
+* {
+	box-sizing:  border-box;
+}
+
 body {
 	display: grid;
 	font-family: 'Open Sans', sans-serif;
@@ -15,7 +20,9 @@ body {
 	display: flex;
 }
 
+
 /* --------- Header --------- */
+
 
 header {
 	background-color: #1E203D;
@@ -53,11 +60,13 @@ h1 span {
 .header--search__icon {
 	background-color: #C7D3D8;
 	border-radius: 3px 0px 0px 3px;
-	height: 30px;
+	height: 48px;
 	padding: 10px;
 }
 
+
 /* ----------- Nav ---------- */
+
 
 nav {
 	background-color: #597988;
@@ -108,9 +117,13 @@ form {
 	color: white;
 	font-size: 2.3em;
 	font-weight: 200;
-	height: 46px;
+	height: 40px;
 	margin: 0;
 	width: 45px;
+}
+
+.plus-icon {
+	margin-bottom: 3px;
 }
 
 .form__label {
@@ -140,9 +153,11 @@ form {
 
 /* ---------- Main ---------- */
 
+
 main {
 	background-color: #F2F6F7;
 	border: solid 2px #497F96;
+	/*column-width: 19em;*/
 	font-weight: 400;
 	grid-area: main;
 }
@@ -152,17 +167,20 @@ h3 {
 	font-size: 1.2em;
 	font-weight: 200;
 	padding: 20px;
+	text-align: left;
 }
 
 .hide {
 	display: none;
 }
 
+
 /* ---------- Card ---------- */
 
+
 .todo-card {
-	flex-direction: column;
 	border: solid 2px #C7D3D8;
+	display: inline-block;
 	margin: 30px;
 	width: 400px;
 }
@@ -179,7 +197,6 @@ h2 {
 
 .todo-card__middle {
 	flex-direction: column;
-	width: 100%;
 }
 
 .todo-card__middle--task {
@@ -189,7 +206,7 @@ h2 {
 }
 
 .todo-card__middle--task--checkbox {
-	height: 25px;
+	height: 30px;
 	margin-right: 10px;
 }
 
