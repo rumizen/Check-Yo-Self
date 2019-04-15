@@ -52,7 +52,7 @@ h1 span {
 
 .header--search__input {
 	border: none;
-	border-radius: 0px 3px 3px 0px;
+	/*border-radius: 0px 3px 3px 0px;*/
 	height: 48px;
 	width: 80%;
 }
@@ -65,14 +65,16 @@ h1 span {
 }
 
 select {
-	-webkit-appearance: none;
-	background: #C7D3D8;
+	background-color: #C7D3D8;
   border: none;
-  font-size: 16px;
-  height: 48px;
-  width: 75px;
   border-radius: 0px 3px 3px 0px;
-  padding-left: 14px;
+  color: #1E203D;
+  font-size: 16px;
+  font-weight: 600;
+  height: 48px;
+  text-align-last: center;
+	-webkit-appearance: none;
+  width: 80px;
 }
 
 
