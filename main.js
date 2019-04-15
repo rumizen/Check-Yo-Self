@@ -10,7 +10,8 @@ const clearAllBtn = document.querySelector('.form__button--clear-all');
 const filterByUrgencyBtn = document.querySelector('.form__button--filter-by-urgency');
 const main = document.querySelector('main');
 const taskList = document.querySelector('.form__task-item-list');
-const emptyMessage = document.querySelector('h3');
+// const emptyMessage1 = document.querySelector('.empty-message-1');
+// const emptyMessage2 = document.querySelector('.empty-message-2');
 
 
 /* -------------- Global Variables ------------- */
@@ -31,7 +32,7 @@ main.addEventListener('click', todoButtons);
 clearAllBtn.addEventListener('click', clearForms);
 taskList.addEventListener('click', deleteStagedTask);
 searchBar.addEventListener('input', searchTodos);
-// filterByUrgencyBtn.addEventListener('click',);
+filterByUrgencyBtn.addEventListener('click', urgentFilter);
 
 
 /* -------------- On Load Fuctions ------------- */
@@ -47,7 +48,18 @@ function startCheckYoSelf() {
 }
 
 function emptyTodoMessage() {
-	allTodos.length < 1 ? emptyMessage.classList.remove('hide') : emptyMessage.classList.add('hide');
+	const message1 = `<h3 class="empty-message-1 hide">&#8678; Create a to-do list and get cracking!</h3>`;
+	const message2 = `<h3 class="empty-message-2 hide">Make some to-dos urgent if they're important!</h3>`;
+	main.insertAdjacentHTML('beforeend', message1);
+	const emptyMessage1 = document.querySelector('.empty-message-1');
+	const emptyMessage2 = document.querySelector('.empty-message-2');
+	if (allTodos.length < 1) {
+		emptyMessage1.classList.remove('hide');
+		emptyMessage2.classList.add('hide');
+	} else {
+		emptyMessage1.classList.add('hide');
+		emptyMessage2.classList.add('hide');
+	}
 }
 
 
@@ -282,10 +294,41 @@ function taskCheckbox(click, cardIndex) {
 /* ---------- Filtering and Searching ---------- */
 
 
+function noUrgentMessage(searchResults) {
+	const message1 = `<h3 class="empty-message-1 hide">&#8678; Create a to-do list and get cracking!</h3>`;
+	const message2 = `<h3 class="empty-message-2 hide">Make some to-dos urgent if they're important!</h3>`;
+	main.insertAdjacentHTML('beforeend', message2);
+	const emptyMessage1 = document.querySelector('.empty-message-1');
+	const emptyMessage2 = document.querySelector('.empty-message-2');
+	if (searchResults.length < 1) {
+		emptyMessage2.classList.remove('hide');
+	} else {
+		emptyMessage2.classList.add('hide');
+	}
+}
+
 function searchTodos() {
   const searchQuery = searchBar.value.toLowerCase();
   const searchResults = allTodos.filter(card => card.title.toLowerCase().includes(searchQuery));
+  const urgentSearchResults = searchResults.filter(card => card.urgent === true);
   main.innerHTML = '';
+  if (filterByUrgencyBtn.classList.contains('filter-urgency-btn-active')) {
+  	urgentSearchResults.forEach(card => appendTodo(card));
+  } else {
   searchResults.forEach(card => appendTodo(card));
+  }
 }
 
+function urgentFilter() {
+	const searchResults = allTodos.filter(card => card.urgent === true);
+	main.innerHTML = '';
+	if (filterByUrgencyBtn.classList.contains('filter-urgency-btn-active')) {
+		filterByUrgencyBtn.classList.remove('filter-urgency-btn-active');
+		loadTodos();
+		emptyTodoMessage();
+	} else {
+		filterByUrgencyBtn.classList.add('filter-urgency-btn-active');
+		searchResults.forEach(card => appendTodo(card));
+	}
+	noUrgentMessage(searchResults);
+}
