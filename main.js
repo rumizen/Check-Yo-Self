@@ -2,7 +2,6 @@
 
 
 const searchBar = document.querySelector('.header--search__input');
-const searchBtn = document.querySelector('.header--search__icon');
 const taskTitle = document.querySelector('.form__input--task-title');
 const taskItem = document.querySelector('.form__input--task-item');
 const taskItemBtn = document.querySelector('.form__input--task-item--button');
@@ -30,8 +29,8 @@ taskItemBtn.addEventListener('click', createTask);
 makeTaskListBtn.addEventListener('click', createNewTodo);
 main.addEventListener('click', todoButtons);
 clearAllBtn.addEventListener('click', clearForms);
-taskList.addEventListener('click', deleteStagedTask)
-// searchBtn.addEventListener('click');
+taskList.addEventListener('click', deleteStagedTask);
+searchBar.addEventListener('input', searchTodos);
 // filterByUrgencyBtn.addEventListener('click',);
 
 
@@ -278,3 +277,15 @@ function taskCheckbox(click, cardIndex) {
 	updateCheckbox(click, taskObject);
 	todoObject.updateTask(click, taskIndex);
 }
+
+
+/* ---------- Filtering and Searching ---------- */
+
+
+function searchTodos() {
+  const searchQuery = searchBar.value.toLowerCase();
+  const searchResults = allTodos.filter(card => card.title.toLowerCase().includes(searchQuery));
+  main.innerHTML = '';
+  searchResults.forEach(card => appendTodo(card));
+}
+
