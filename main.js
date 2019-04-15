@@ -10,8 +10,6 @@ const clearAllBtn = document.querySelector('.form__button--clear-all');
 const filterByUrgencyBtn = document.querySelector('.form__button--filter-by-urgency');
 const main = document.querySelector('main');
 const taskList = document.querySelector('.form__task-item-list');
-// const emptyMessage1 = document.querySelector('.empty-message-1');
-// const emptyMessage2 = document.querySelector('.empty-message-2');
 
 
 /* -------------- Global Variables ------------- */
@@ -29,6 +27,8 @@ taskTitle.addEventListener('input', inputChecker);
 taskItemBtn.addEventListener('click', createTask);
 makeTaskListBtn.addEventListener('click', createNewTodo);
 main.addEventListener('click', todoButtons);
+main.addEventListener('input', editText);
+main.addEventListener('keyup', enterButton);
 clearAllBtn.addEventListener('click', clearForms);
 taskList.addEventListener('click', deleteStagedTask);
 searchBar.addEventListener('input', searchTodos);
@@ -157,7 +157,7 @@ function pasteCardNormal(newTodo) {
 	const cardText = `
 		<article class="todo-card" data-id=${newTodo.id}>
 			<section class="todo-card__top flex">
-				<h2 class="todo-card__top--title">${newTodo.title}</h2>
+				<h2 class="todo-card__top--title" contenteditable="true">${newTodo.title}</h2>
 			</section>
 			<section class="todo-card__middle flex">
 			</section>
@@ -179,7 +179,7 @@ function pasteCardUrgent(newTodo) {
 	const cardTextActive = `
 		<article class="todo-card--active todo-card" data-id=${newTodo.id}>
 			<section class="todo-card__top flex">
-				<h2 class="todo-card__top--title">${newTodo.title}</h2>
+				<h2 class="todo-card__top--title" contenteditable="true">${newTodo.title}</h2>
 			</section>
 			<section class="todo-card__middle flex">
 			</section>
@@ -201,7 +201,7 @@ function pasteTasksNormal(el) {
 	document.querySelector('.todo-card__middle').insertAdjacentHTML('beforeend', `
 			<div class="todo-card__middle--task flex" data-id=${el.id}>
 				<img class="todo-card__middle--task--checkbox" src="images/checkbox.svg">
-				<p class="todo-card__middle--task--text">${el.content}</p>
+				<p class="todo-card__middle--task--text" contenteditable="true">${el.content}</p>
 			</div>`);
 }
 
@@ -209,7 +209,7 @@ function pasteTasksChecked(el) {
 	document.querySelector('.todo-card__middle').insertAdjacentHTML('beforeend', `
 			<div class="todo-card__middle--task flex task-checked" data-id=${el.id}>
 				<img class="todo-card__middle--task--checkbox" src="images/checkbox-active.svg">
-				<p class="todo-card__middle--task--text">${el.content}</p>
+				<p class="todo-card__middle--task--text" contenteditable="true">${el.content}</p>
 			</div>`);
 }
 
@@ -217,11 +217,48 @@ function pasteTasksChecked(el) {
 /* ---------- Updating DOM ---------- */
 
 
+
+function enterButton(e) {
+	e.preventDefault();
+	if (e.keyCode === 13) {
+    e.target.blur();
+  }
+}
+
 function getIndex(cardId) {
 	cardIndex = allTodos.findIndex(function(el) {
 		return el.id == cardId;
 	})
 	return cardIndex;
+}
+
+function editText(e) {
+	const click = e.target;
+	if (click.matches('.todo-card__top--title')) {
+		enterButton(e);
+		editTitle(click);
+	}
+	if (click.matches('.todo-card__middle--task--text')) {
+		enterButton(e);
+		editTask(click);
+	}
+}
+
+function editTitle(click) {
+	const cardId = click.parentNode.parentNode.dataset.id;
+	const cardIndex = getIndex(cardId);
+	const todoObject = allTodos[cardIndex];
+	todoObject.updateToDo(click);
+}
+
+function editTask(click) {
+	const cardId = click.parentNode.parentNode.parentNode.dataset.id;
+	const cardIndex = getIndex(cardId);
+	const todoObject = allTodos[cardIndex];
+	const taskId = click.parentNode.dataset.id;
+	const taskIndex = todoObject.tasks.findIndex(el => el.id === taskId);
+	const taskObject = todoObject.tasks[taskIndex];
+	todoObject.updateTask(click, taskIndex);
 }
 
 function todoButtons(e) {
