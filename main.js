@@ -291,6 +291,7 @@ function todoButtons(e) {
 function pasteNewTask(click, cardIndex) {
 	const todoObject = allTodos[cardIndex];
 	const taskText = click.parentNode.querySelector('.todo-card__bottom__input--text').value;
+	if (taskText !== '') {
 	const taskObject = {id: Date.now(), content: taskText, checked: false};
 	click.parentNode.parentNode.parentNode.querySelector('.todo-card__middle').insertAdjacentHTML('beforeend', `
 			<div class="todo-card__middle--task flex" data-id=${taskObject.id}>
@@ -299,6 +300,7 @@ function pasteNewTask(click, cardIndex) {
 			</div>`);
 	todoObject.addTask(taskObject);
 	click.parentNode.querySelector('.todo-card__bottom__input--text').value = '';
+	}
 }
 
 function deleteButton(click, cardIndex) {
