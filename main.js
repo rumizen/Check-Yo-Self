@@ -168,8 +168,8 @@ function pasteCardNormal(newTodo) {
 					<p>Urgent</p>
 				</div>
 				<div class="todo-card__bottom__input flex">
-					<input class="todo-card__bottom__input--text" type="text" placeholder=" Add new task">
-					<button class="todo-card__bottom__input--button"></button>
+					<input class="todo-card__bottom__input--text" type="text" placeholder=" Add task">
+					<button class="todo-card__bottom__input--button">+</button>
 				</div>
 				<div class="todo-card__bottom__icon todo-card__bottom__icon--delete flex">
 					<img class="todo-card__bottom--delete" src="images/delete.svg">
@@ -194,8 +194,8 @@ function pasteCardUrgent(newTodo) {
 					<p>Urgent</p>
 				</div>
 				<div class="todo-card__bottom__input flex">
-					<input class="todo-card__bottom__input--text" type="text" placeholder=" Add new task">
-					<button class="todo-card__bottom__input--button"></button>
+					<input class="todo-card__bottom__input--text" type="text" placeholder=" Add task">
+					<button class="todo-card__bottom__input--button">+</button>
 				</div>
 				<div class="todo-card__bottom__icon todo-card__bottom__icon--delete flex">
 					<img class="todo-card__bottom--delete" src="images/delete.svg">
