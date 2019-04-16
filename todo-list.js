@@ -35,4 +35,9 @@ class ToDoList {
 		}
 		this.saveToStorage(allTodos);
 	}
+
+	addTask(taskObject) {
+		this.tasks.push(taskObject);
+		this.saveToStorage(allTodos);
+	}
 }
