@@ -47,12 +47,11 @@ h1 span {
 	justify-content: flex-end;
 	align-items: center;
 	margin: 10px;
-	width: 30%;
+	width: 340px;
 }
 
 .header--search__input {
 	border: none;
-	/*border-radius: 0px 3px 3px 0px;*/
 	height: 48px;
 	width: 80%;
 }
@@ -64,6 +63,8 @@ h1 span {
 	padding: 10px;
 }
 
+
+
 select {
 	background-color: #C7D3D8;
   border: none;
@@ -74,7 +75,7 @@ select {
   height: 48px;
   text-align-last: center;
 	-webkit-appearance: none;
-  width: 80px;
+  width: 60px;
 }
 
 
@@ -89,7 +90,7 @@ nav {
 }
 
 form {
-	border-bottom: solid 2px #497F96;
+	border-bottom: solid 2px rgba(55, 96, 138, .5);
 	flex-direction: column;
 	padding-bottom: 10px;
 }
@@ -156,10 +157,8 @@ form {
 .task-item {
 	align-items: center;
 	display: flex;
-	flex-wrap: nowrap;
 	justify-content: flex-start;
 	margin: 7px 30px;
-	width: 30%;
 }
 
 .task-item__icon--delete {
@@ -173,10 +172,13 @@ form {
 
 main {
 	background-color: #F2F6F7;
-	border: solid 2px #497F96;
-	/*column-width: 19em;*/
+	border: solid 2px rgba(55, 96, 138, 1);
+	column-gap: 2em;
+	column-width: 21em;
 	font-weight: 400;
 	grid-area: main;
+	padding: 40px 40px 0px 40px;
+	width: 100%;
 }
 
 h3 {
@@ -198,8 +200,8 @@ h3 {
 .todo-card {
 	border: solid 2px #C7D3D8;
 	display: inline-block;
-	margin: 30px;
-	width: 400px;
+	margin-bottom: 40px;
+	width: 23em;
 }
 
 h2 {
@@ -219,11 +221,11 @@ h2 {
 .todo-card__middle--task {
 	align-items: center;
 	justify-content: flex-start;
-	margin: 20px 30px;
+	margin: 20px 20px;
 }
 
 .todo-card__middle--task--checkbox {
-	height: 30px;
+	height: 20px;
 	margin-right: 10px;
 }
 
@@ -244,12 +246,11 @@ h2 {
 	align-items: center;
 	border-top: solid 2px #C7D3D8;
 	justify-content: space-between;
-	width: 100%;
 }
 
 .todo-card__bottom--urgent, 
 .todo-card__bottom--delete {
-	height: 30px;
+	height: 20px;
 }
 
 .todo-card__bottom__icon {
@@ -264,18 +265,24 @@ h2 {
 
 .todo-card__bottom__input {
 	align-items: center;
+	justify-content: center;
+	width: 100%;
 }
 
 .todo-card__bottom__input input {
 	height: 40px;
 	border: 1px solid #3C6577;
 	border-radius: 3px 0px 0px 3px;
+	width: 150px;
 }
 
 .todo-card__bottom__input button {
 	background-color: #3C6577;
 	border: none;
 	border-radius: 0px 3px 3px 0px;
+	color: white;
+	font-size: 2em;
+	font-weight: 400;
 	height: 40px;
 	width: 40px;
 }
@@ -286,7 +293,7 @@ h2 {
 
 .todo-card--active {
 	background-color: #FFE79D;
-	border-color: #FEC40E;
+	border: 2px solid #FEC40E;
 }
 
 .todo-card__bottom--active, 
@@ -297,3 +304,59 @@ h2 {
 
 /* ------ Media Queries ----- */
 
+
+@media screen and (max-width: 630px) {
+	body {
+	display: grid;
+	display: block;
+	}
+
+	.header__search-bar {
+	width: 95%;
+	}
+
+	header {
+		flex-direction: column;
+		align-items: center;
+	}
+
+	main {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.todo-card {
+	border: solid 2px #C7D3D8;
+	display: block;
+	margin-bottom: 40px;
+	width: 100%;
+	}
+
+	.todo-card__bottom__input input {
+		width: 100%;
+	}
+
+	input::placeholder {
+		font-size: .8em;
+	}
+}
+
+
+@media screen and (max-width: 336px) {
+	h1 {
+		font-size: 1.6em;
+	}
+	main {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding: 10px;
+	}
+	.todo-card {
+	border: solid 2px #C7D3D8;
+	display: block;
+	margin-bottom: 15px;
+	width: 100%;
+	}
+}
