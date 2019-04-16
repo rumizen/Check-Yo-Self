@@ -167,6 +167,10 @@ function pasteCardNormal(newTodo) {
 					<img class="todo-card__bottom--urgent" src="images/urgent.svg">
 					<p>Urgent</p>
 				</div>
+				<div class="todo-card__bottom__input flex">
+					<input class="todo-card__bottom__input--text" type="text" placeholder=" Add new task">
+					<button class="todo-card__bottom__input--button"></button>
+				</div>
 				<div class="todo-card__bottom__icon todo-card__bottom__icon--delete flex">
 					<img class="todo-card__bottom--delete" src="images/delete.svg">
 					<p>Delete</p>
@@ -179,15 +183,19 @@ function pasteCardNormal(newTodo) {
 function pasteCardUrgent(newTodo) {
 	const cardTextActive = `
 		<article class="todo-card--active todo-card" data-id=${newTodo.id}>
-			<section class="todo-card__top flex">
+			<section class="todo-card__top--active todo-card__top flex">
 				<h2 class="todo-card__top--title" contenteditable="true">${newTodo.title}</h2>
 			</section>
 			<section class="todo-card__middle flex">
 			</section>
-			<section class="todo-card__bottom flex">
+			<section class="todo-card__bottom--active todo-card__bottom flex">
 				<div class="todo-card__bottom__icon todo-card__bottom__icon--urgent flex">
 					<img class="todo-card__bottom--urgent" src="images/urgent-active.svg">
 					<p>Urgent</p>
+				</div>
+				<div class="todo-card__bottom__input flex">
+					<input class="todo-card__bottom__input--text" type="text" placeholder=" Add new task">
+					<button class="todo-card__bottom__input--button"></button>
 				</div>
 				<div class="todo-card__bottom__icon todo-card__bottom__icon--delete flex">
 					<img class="todo-card__bottom--delete" src="images/delete.svg">
@@ -275,6 +283,24 @@ function todoButtons(e) {
 	if (click.matches('.todo-card__middle--task--checkbox')) {
 		taskCheckbox(click, cardIndex);
 	}
+	if (click.matches('.todo-card__bottom__input--button')) {
+		pasteNewTask(click, cardIndex);
+	}
+}
+
+function pasteNewTask(click, cardIndex) {
+	const todoObject = allTodos[cardIndex];
+	const taskText = click.parentNode.querySelector('.todo-card__bottom__input--text').value;
+	if (taskText !== '') {
+	const taskObject = {id: Date.now(), content: taskText, checked: false};
+	click.parentNode.parentNode.parentNode.querySelector('.todo-card__middle').insertAdjacentHTML('beforeend', `
+			<div class="todo-card__middle--task flex" data-id=${taskObject.id}>
+				<img class="todo-card__middle--task--checkbox" src="images/checkbox.svg">
+				<p class="todo-card__middle--task--text" contenteditable="true">${taskText}</p>
+			</div>`);
+	todoObject.addTask(taskObject);
+	click.parentNode.querySelector('.todo-card__bottom__input--text').value = '';
+	}
 }
 
 function deleteButton(click, cardIndex) {
@@ -322,7 +348,7 @@ function updateCheckbox(click, taskObject) {
 function taskCheckbox(click, cardIndex) {
 	const todoObject = allTodos[cardIndex];
 	const taskId = click.parentNode.dataset.id;
-	const taskIndex = todoObject.tasks.findIndex(el => el.id === taskId);
+	const taskIndex = todoObject.tasks.findIndex(el => el.id == taskId);
 	const taskObject = todoObject.tasks[taskIndex];
 	updateCheckbox(click, taskObject);
 	todoObject.updateTask(click, taskIndex);

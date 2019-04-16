@@ -241,6 +241,7 @@ h2 {
 }
 
 .todo-card__bottom {
+	align-items: center;
 	border-top: solid 2px #C7D3D8;
 	justify-content: space-between;
 	width: 100%;
@@ -261,13 +262,36 @@ h2 {
 	color: #3C6577;
 }
 
+.todo-card__bottom__input {
+	align-items: center;
+}
+
+.todo-card__bottom__input input {
+	height: 40px;
+	border: 1px solid #3C6577;
+	border-radius: 3px 0px 0px 3px;
+}
+
+.todo-card__bottom__input button {
+	background-color: #3C6577;
+	border: none;
+	border-radius: 0px 3px 3px 0px;
+	height: 40px;
+	width: 40px;
+}
+
+.todo-card__bottom__input button img {
+	padding-top: 3px;
+}
+
 .todo-card--active {
 	background-color: #FFE79D;
 	border-color: #FEC40E;
 }
 
-.todo-card img {
-	padding: 5px 10px;
+.todo-card__bottom--active, 
+.todo-card__top--active {
+	border-color: #FEC40E;
 }
 
 
