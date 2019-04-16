@@ -1,4 +1,4 @@
-# Check Yo' Self
+# [Check Yo' Self](https://rumizen.github.io/check-yo-self/)
 By Steve Rumizen
 
 ## Turing School of Software & Design: Mod 1 Solo project
