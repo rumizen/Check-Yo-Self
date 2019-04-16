@@ -201,7 +201,7 @@ h3 {
 	border: solid 2px #C7D3D8;
 	display: inline-block;
 	margin-bottom: 40px;
-	width: 23em;
+	width: 100%;
 }
 
 h2 {
@@ -306,6 +306,11 @@ h2 {
 
 
 @media screen and (max-width: 630px) {
+
+	h1 {
+		font-size: 1.6em;
+	}
+
 	body {
 	display: grid;
 	display: block;
@@ -324,12 +329,13 @@ h2 {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		padding: 10px;
 	}
 
 	.todo-card {
 	border: solid 2px #C7D3D8;
 	display: block;
-	margin-bottom: 40px;
+	margin-bottom: 15px;
 	width: 100%;
 	}
 
@@ -342,21 +348,3 @@ h2 {
 	}
 }
 
-
-@media screen and (max-width: 336px) {
-	h1 {
-		font-size: 1.6em;
-	}
-	main {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		padding: 10px;
-	}
-	.todo-card {
-	border: solid 2px #C7D3D8;
-	display: block;
-	margin-bottom: 15px;
-	width: 100%;
-	}
-}

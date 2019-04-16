@@ -64,13 +64,9 @@ function emptyTodoMessage() {
 }
 
 
-function enableButton(btn) {
-	btn.removeAttribute('disabled');
-}
+var enableButton = btn =>  btn.removeAttribute('disabled');
 
-function disableButton(btn) {
-	btn.setAttribute('disabled', '');
-}
+var disableButton = btn => btn.setAttribute('disabled', '');
 
 function resetInput(input, btn) {
 	input.value = '';
@@ -332,16 +328,25 @@ function urgentButton(click, cardIndex) {
 	todoObject.updateToDo(click);
 }
 
-function updateCheckbox(click, taskObject) {
-	if (taskObject.checked === false) {
+function checkboxStyler(click, bool) {
+	if (bool === false) {
 		click.setAttribute('src', 'images/checkbox-active.svg');
 		click.parentNode.classList.add('task-checked');
 		click.classList.add('checkbox-checked');
 	}
-	if (taskObject.checked === true) {
+	if (bool === true) {
 		click.setAttribute('src', 'images/checkbox.svg');
 		click.parentNode.classList.remove('task-checked');
 		click.classList.remove('checkbox-checked');
+	}
+}
+
+function updateCheckbox(click, taskObject) {
+	if (taskObject.checked === false) {
+		checkboxStyler(click, false);
+	}
+	if (taskObject.checked === true) {
+		checkboxStyler(click, true);
 	}
 }
 
@@ -378,11 +383,7 @@ function searchTodosTitle() {
   const searchResults = allTodos.filter(card => card.title.toLowerCase().includes(searchQuery));
   const urgentSearchResults = searchResults.filter(card => card.urgent === true);
   main.innerHTML = '';
-  if (filterByUrgencyBtn.classList.contains('filter-urgency-btn-active')) {
-  	urgentSearchResults.forEach(card => appendTodo(card));
-  } else {
-  searchResults.forEach(card => appendTodo(card));
-  }
+  filterByUrgencyBtn.classList.contains('filter-urgency-btn-active') ? urgentSearchResults.forEach(card => appendTodo(card)) : searchResults.forEach(card => appendTodo(card));  
 }
 
 function searchTodosTasks() {
@@ -390,11 +391,7 @@ function searchTodosTasks() {
   const searchResults = allTodos.filter(card => card.tasks.some(task => task.content.includes(searchQuery)));
   const urgentSearchResults = searchResults.filter(card => card.urgent === true);
   main.innerHTML = '';
-  if (filterByUrgencyBtn.classList.contains('filter-urgency-btn-active')) {
-  	urgentSearchResults.forEach(card => appendTodo(card));
-  } else {
-  searchResults.forEach(card => appendTodo(card));
-  }
+  filterByUrgencyBtn.classList.contains('filter-urgency-btn-active') ? urgentSearchResults.forEach(card => appendTodo(card)) : searchResults.forEach(card => appendTodo(card));
 }
 
 function searchTodosAll() {
@@ -402,11 +399,7 @@ function searchTodosAll() {
 	const allSearchResults = allTodos.filter(card => card.title.toLowerCase().includes(searchQuery) || card.tasks.some(task => task.content.includes(searchQuery)));
   const urgentSearchResults = allSearchResults.filter(card => card.urgent === true);
   main.innerHTML = '';
-  if (filterByUrgencyBtn.classList.contains('filter-urgency-btn-active')) {
-  	urgentSearchResults.forEach(card => appendTodo(card));
-  } else {
-  allSearchResults.forEach(card => appendTodo(card));
-  }
+  filterByUrgencyBtn.classList.contains('filter-urgency-btn-active') ? urgentSearchResults.forEach(card => appendTodo(card)) : allSearchResults.forEach(card => appendTodo(card));
 }
 
 function urgentFilter() {
@@ -429,9 +422,5 @@ function noUrgentMessage(searchResults) {
 	main.insertAdjacentHTML('beforeend', message2);
 	const emptyMessage1 = document.querySelector('.empty-message-1');
 	const emptyMessage2 = document.querySelector('.empty-message-2');
-	if (searchResults.length < 1) {
-		emptyMessage2.classList.remove('hide');
-	} else {
-		emptyMessage2.classList.add('hide');
-	}
+	searchResults.length < 1 ? emptyMessage2.classList.remove('hide') : emptyMessage2.classList.add('hide');
 }
