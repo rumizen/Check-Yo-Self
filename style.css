@@ -316,12 +316,11 @@ h2 {
 	}
 
 	body {
-	display: grid;
-	display: block;
+		display: block;
 	}
 
 	.header__search-bar {
-	width: 95%;
+		width: 95%;
 	}
 
 	header {
