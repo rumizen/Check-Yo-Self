@@ -174,7 +174,7 @@ main {
 	background-color: #F2F6F7;
 	border: solid 2px rgba(55, 96, 138, 1);
 	column-gap: 2em;
-	column-width: 21em;
+	column-width: 350px;
 	font-weight: 400;
 	grid-area: main;
 	padding: 40px 40px 0px 40px;
@@ -210,12 +210,22 @@ h2 {
 }
 
 .todo-card__top {
-	border-bottom: solid 2px #C7D3D8;
 	width: 100%;
+}
+
+.todo-card__middle--active {
+	flex-direction: column;
+	border-top: 2px solid #FEC40E;
+	border-bottom: 2px solid #FEC40E;
 }
 
 .todo-card__middle {
 	flex-direction: column;
+}
+
+.todo-card__middle--border {
+	border-top: 2px solid #C7D3D8;
+	border-bottom: 2px solid #C7D3D8;	
 }
 
 .todo-card__middle--task {
@@ -244,7 +254,6 @@ h2 {
 
 .todo-card__bottom {
 	align-items: center;
-	border-top: solid 2px #C7D3D8;
 	justify-content: space-between;
 }
 
@@ -296,13 +305,8 @@ h2 {
 	border: 2px solid #FEC40E;
 }
 
-.todo-card__bottom--active, 
-.todo-card__top--active {
-	border-color: #FEC40E;
-}
 
-
-/* ------ Media Queries ----- */
+/* --------------- Media Queries ----------------- */
 
 
 @media screen and (max-width: 630px) {

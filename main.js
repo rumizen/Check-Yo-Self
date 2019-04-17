@@ -107,7 +107,6 @@ function inputChecker() {
 
 
 
-
 /* ---------- Appending Cards ---------- */
 
 
@@ -156,7 +155,7 @@ function pasteCardNormal(newTodo) {
 			<section class="todo-card__top flex">
 				<h2 class="todo-card__top--title" contenteditable="true">${newTodo.title}</h2>
 			</section>
-			<section class="todo-card__middle flex">
+			<section class="todo-card__middle todo-card__middle--border flex">
 			</section>
 			<section class="todo-card__bottom flex">
 				<div class="todo-card__bottom__icon todo-card__bottom__icon--urgent flex">
@@ -179,12 +178,12 @@ function pasteCardNormal(newTodo) {
 function pasteCardUrgent(newTodo) {
 	const cardTextActive = `
 		<article class="todo-card--active todo-card" data-id=${newTodo.id}>
-			<section class="todo-card__top--active todo-card__top flex">
+			<section class="todo-card__top flex">
 				<h2 class="todo-card__top--title" contenteditable="true">${newTodo.title}</h2>
 			</section>
-			<section class="todo-card__middle flex">
+			<section class="todo-card__middle--active todo-card__middle todo-card__middle--borders flex">
 			</section>
-			<section class="todo-card__bottom--active todo-card__bottom flex">
+			<section class="todo-card__bottom flex">
 				<div class="todo-card__bottom__icon todo-card__bottom__icon--urgent flex">
 					<img class="todo-card__bottom--urgent" src="images/urgent-active.svg">
 					<p>Urgent</p>
@@ -320,10 +319,14 @@ function urgentButton(click, cardIndex) {
 	if (todoObject.urgent === false) {
 		click.setAttribute('src', 'images/urgent-active.svg');
 		click.parentNode.parentNode.parentNode.classList.add('todo-card--active');
+		click.parentNode.parentNode.previousSibling.previousSibling.classList.add('todo-card__middle--active');
+		click.parentNode.parentNode.previousSibling.previousSibling.classList.remove('todo-card__middle--border');
 	}
 	if (todoObject.urgent === true) {
 		click.setAttribute('src', 'images/urgent.svg');
 		click.parentNode.parentNode.parentNode.classList.remove('todo-card--active');
+		click.parentNode.parentNode.previousSibling.previousSibling.classList.add('todo-card__middle--border');
+		click.parentNode.parentNode.previousSibling.previousSibling.classList.remove('todo-card__middle--active');
 	}
 	todoObject.updateToDo(click);
 }
